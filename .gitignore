@@ -1,0 +1,28 @@
+# Dataset
+data/raw/
+data/interim/
+data/processed/
+
+# Models
+models/*.pth
+models/*.pt
+models/checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

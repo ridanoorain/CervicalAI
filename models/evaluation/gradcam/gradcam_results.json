@@ -1,0 +1,112 @@
+[
+    {
+        "index": 395,
+        "category": "high_confidence_wrong",
+        "image_path": "c:\\CervicalAI\\data\\processed\\cell_crops\\LSIL_9_9\\cell_0000.png",
+        "actual_class": "NILM",
+        "predicted_class": "ENDO",
+        "confidence": 0.9881473183631897,
+        "soft_label_entropy": 1.3862943649291992,
+        "correct": false,
+        "heatmap_path": "c:\\CervicalAI\\models\\evaluation\\gradcam\\heatmaps\\01_high_confidence_wrong_cell_0000_actual_NILM_pred_ENDO.png"
+    },
+    {
+        "index": 157,
+        "category": "high_confidence_wrong",
+        "image_path": "c:\\CervicalAI\\data\\processed\\cell_crops\\LSIL_9_16\\cell_0005.png",
+        "actual_class": "INFL",
+        "predicted_class": "ENDO",
+        "confidence": 0.9643279910087585,
+        "soft_label_entropy": 0.5623351335525513,
+        "correct": false,
+        "heatmap_path": "c:\\CervicalAI\\models\\evaluation\\gradcam\\heatmaps\\02_high_confidence_wrong_cell_0005_actual_INFL_pred_ENDO.png"
+    },
+    {
+        "index": 359,
+        "category": "high_confidence_wrong",
+        "image_path": "c:\\CervicalAI\\data\\processed\\cell_crops\\LSIL_10_13\\cell_0018.png",
+        "actual_class": "INFL",
+        "predicted_class": "NILM",
+        "confidence": 0.9169571995735168,
+        "soft_label_entropy": 0.6931471824645996,
+        "correct": false,
+        "heatmap_path": "c:\\CervicalAI\\models\\evaluation\\gradcam\\heatmaps\\03_high_confidence_wrong_cell_0018_actual_INFL_pred_NILM.png"
+    },
+    {
+        "index": 306,
+        "category": "high_uncertainty",
+        "image_path": "c:\\CervicalAI\\data\\processed\\cell_crops\\ASCH_2_10\\cell_0002.png",
+        "actual_class": "NILM",
+        "predicted_class": "NILM",
+        "confidence": 0.34934914112091064,
+        "soft_label_entropy": 1.3862943649291992,
+        "correct": true,
+        "heatmap_path": "c:\\CervicalAI\\models\\evaluation\\gradcam\\heatmaps\\04_high_uncertainty_cell_0002_actual_NILM_pred_NILM.png"
+    },
+    {
+        "index": 307,
+        "category": "high_uncertainty",
+        "image_path": "c:\\CervicalAI\\data\\processed\\cell_crops\\ASCH_2_10\\cell_0003.png",
+        "actual_class": "NILM",
+        "predicted_class": "INFL",
+        "confidence": 0.5421113967895508,
+        "soft_label_entropy": 1.3862943649291992,
+        "correct": false,
+        "heatmap_path": "c:\\CervicalAI\\models\\evaluation\\gradcam\\heatmaps\\05_high_uncertainty_cell_0003_actual_NILM_pred_INFL.png"
+    },
+    {
+        "index": 97,
+        "category": "high_uncertainty",
+        "image_path": "c:\\CervicalAI\\data\\processed\\cell_crops\\ASCH_2_5\\cell_0004.png",
+        "actual_class": "NILM",
+        "predicted_class": "NILM",
+        "confidence": 0.5598933100700378,
+        "soft_label_entropy": 1.0986024141311646,
+        "correct": true,
+        "heatmap_path": "c:\\CervicalAI\\models\\evaluation\\gradcam\\heatmaps\\06_high_uncertainty_cell_0004_actual_NILM_pred_NILM.png"
+    },
+    {
+        "index": 86,
+        "category": "correct_prediction",
+        "image_path": "c:\\CervicalAI\\data\\processed\\cell_crops\\HSIL_15_15\\cell_0002.png",
+        "actual_class": "INFL",
+        "predicted_class": "INFL",
+        "confidence": 0.3138256371021271,
+        "soft_label_entropy": -0.0,
+        "correct": true,
+        "heatmap_path": "c:\\CervicalAI\\models\\evaluation\\gradcam\\heatmaps\\07_correct_prediction_cell_0002_actual_INFL_pred_INFL.png"
+    },
+    {
+        "index": 518,
+        "category": "correct_prediction",
+        "image_path": "c:\\CervicalAI\\data\\processed\\cell_crops\\HSIL_9_13\\cell_0002.png",
+        "actual_class": "HSIL",
+        "predicted_class": "HSIL",
+        "confidence": 0.3255826532840729,
+        "soft_label_entropy": -0.0,
+        "correct": true,
+        "heatmap_path": "c:\\CervicalAI\\models\\evaluation\\gradcam\\heatmaps\\08_correct_prediction_cell_0002_actual_HSIL_pred_HSIL.png"
+    },
+    {
+        "index": 383,
+        "category": "incorrect_prediction",
+        "image_path": "c:\\CervicalAI\\data\\processed\\cell_crops\\HSIL_14_7\\cell_0000.png",
+        "actual_class": "ENDO",
+        "predicted_class": "INFL",
+        "confidence": 0.31437382102012634,
+        "soft_label_entropy": 0.636491060256958,
+        "correct": false,
+        "heatmap_path": "c:\\CervicalAI\\models\\evaluation\\gradcam\\heatmaps\\09_incorrect_prediction_cell_0000_actual_ENDO_pred_INFL.png"
+    },
+    {
+        "index": 479,
+        "category": "incorrect_prediction",
+        "image_path": "c:\\CervicalAI\\data\\processed\\cell_crops\\HSIL_9_18\\cell_0004.png",
+        "actual_class": "INFL",
+        "predicted_class": "NILM",
+        "confidence": 0.32524657249450684,
+        "soft_label_entropy": 1.0397207736968994,
+        "correct": false,
+        "heatmap_path": "c:\\CervicalAI\\models\\evaluation\\gradcam\\heatmaps\\10_incorrect_prediction_cell_0004_actual_INFL_pred_NILM.png"
+    }
+]

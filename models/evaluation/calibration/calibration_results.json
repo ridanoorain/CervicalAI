@@ -1,0 +1,110 @@
+{
+    "ece": 0.04889361310255278,
+    "num_bins": 10,
+    "bin_accuracies": [
+        NaN,
+        NaN,
+        NaN,
+        0.525,
+        0.42045454545454547,
+        0.6166666666666667,
+        0.6559139784946236,
+        0.7945205479452054,
+        0.9452054794520548,
+        0.9529411764705882
+    ],
+    "bin_confidences": [
+        NaN,
+        NaN,
+        NaN,
+        0.3638940751552582,
+        0.456231027841568,
+        0.549548327922821,
+        0.6530842185020447,
+        0.7534177303314209,
+        0.8526259660720825,
+        0.9564517736434937
+    ],
+    "bin_counts": [
+        0,
+        0,
+        0,
+        40,
+        88,
+        120,
+        93,
+        73,
+        73,
+        85
+    ],
+    "num_samples": 572,
+    "per_class_ece": {
+        "NILM": {
+            "n": 310,
+            "ece": 0.1012865925988843,
+            "mean_confidence": 0.7254241108894348,
+            "mean_accuracy": 0.8225806451612904,
+            "note": ""
+        },
+        "INFL": {
+            "n": 147,
+            "ece": 0.12122018848146711,
+            "mean_confidence": 0.5453534722328186,
+            "mean_accuracy": 0.564625850340136,
+            "note": ""
+        },
+        "LSIL": {
+            "n": 47,
+            "ece": 0.2571906682024611,
+            "mean_confidence": 0.5514894127845764,
+            "mean_accuracy": 0.3191489361702128,
+            "note": ""
+        },
+        "HSIL": {
+            "n": 19,
+            "ece": 0.14592987298965454,
+            "mean_confidence": 0.4571697413921356,
+            "mean_accuracy": 0.5263157894736842,
+            "note": ""
+        },
+        "SCC": {
+            "n": 6,
+            "ece": 0.45919302105903625,
+            "mean_confidence": 0.45919302105903625,
+            "mean_accuracy": 0.0,
+            "note": "low n (<10), unreliable"
+        },
+        "ENDO": {
+            "n": 42,
+            "ece": 0.10607757951532094,
+            "mean_confidence": 0.8842735290527344,
+            "mean_accuracy": 0.8809523809523809,
+            "note": ""
+        },
+        "ASCH": {
+            "n": 1,
+            "ece": 0.6229988932609558,
+            "mean_confidence": 0.3770011067390442,
+            "mean_accuracy": 1.0,
+            "note": "low n (<10), unreliable"
+        },
+        "ASCUS": {
+            "n": 0,
+            "ece": null,
+            "mean_confidence": null,
+            "mean_accuracy": null,
+            "note": "no predictions in this class"
+        }
+    },
+    "ground_truth_definition": "Majority class obtained using argmax of soft-label distribution",
+    "class_names": [
+        "NILM",
+        "INFL",
+        "LSIL",
+        "HSIL",
+        "SCC",
+        "ENDO",
+        "ASCH",
+        "ASCUS"
+    ]
+}
