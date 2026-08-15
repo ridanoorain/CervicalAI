@@ -43,7 +43,12 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 
 from sklearn.metrics import f1_score, accuracy_score
-
+from training.loss_weighted import (
+    compute_class_weights,
+    WeightedSoftLabelKLDivergence,
+    build_weighted_sampler,
+)
+from utils.metrics import evaluate_predictions
 
 # ============================================================
 # PROJECT PATH
@@ -146,7 +151,16 @@ CONFIG = {
     # --------------------------------------------------------
 
     "seed": 42,
+    
+    # --------------------------------------------------------
+    # Class imbalance handling 
+    # --------------------------------------------------------
 
+    "use_class_weighting": True,      
+    "use_weighted_sampler": False,    
+                                   
+    "reports_dir": os.path.join(PROJECT_ROOT, "reports"),
+    "run_name": "riva_weighted_loss", 
     # --------------------------------------------------------
     # Output
     # --------------------------------------------------------
@@ -785,13 +799,20 @@ def train():
     # Loss
     # --------------------------------------------------------
 
-    criterion = SoftLabelKLDivergence()
+    
 
-    print(
-        "\nLoss: "
-        "KL Divergence"
-    )
-
+    if CONFIG["use_class_weighting"]:
+        class_weights = compute_class_weights(
+            train_dataset,
+            method="inverse_freq",
+            cap=10.0,
+        )
+        class_weights = class_weights.to(device)
+        criterion = WeightedSoftLabelKLDivergence(class_weights)
+        print("\nLoss: Weighted KL Divergence (class-weighted)")
+    else:
+        criterion = SoftLabelKLDivergence()
+        print("\nLoss: KL Divergence (unweighted, baseline)")
     # --------------------------------------------------------
     # Optimizer
     # --------------------------------------------------------
@@ -1071,7 +1092,41 @@ def train():
             )
 
             break
+    # ------------------------------------------------------------
+    # Final per-class evaluation using the best checkpoint
+    # ------------------------------------------------------------
 
+    print("\nLoading best checkpoint for final per-class evaluation...")
+
+    best_checkpoint = torch.load(
+        os.path.join(CONFIG["checkpoint_dir"], "best_model.pth"),
+        map_location=device,
+    )
+    model.load_state_dict(best_checkpoint["model_state_dict"])
+    model.eval()
+
+    all_predictions = []
+    all_targets = []
+
+    with torch.no_grad():
+        for images, soft_labels, _ in val_loader:
+            images = images.to(device, non_blocking=True)
+            soft_labels = soft_labels.to(device, non_blocking=True)
+
+            logits = model(images)
+            predictions = torch.argmax(logits, dim=1)
+            targets = torch.argmax(soft_labels, dim=1)
+
+            all_predictions.extend(predictions.cpu().numpy())
+            all_targets.extend(targets.cpu().numpy())
+
+    evaluate_predictions(
+        y_true=all_targets,
+        y_pred=all_predictions,
+        class_names=CLASS_NAMES,
+        output_dir=CONFIG["reports_dir"],
+        run_name=CONFIG["run_name"],
+    )
     # ========================================================
     # SAVE TRAINING HISTORY
     # ========================================================
