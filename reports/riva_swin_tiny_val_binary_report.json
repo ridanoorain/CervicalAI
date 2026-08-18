@@ -1,0 +1,30 @@
+{
+  "run_name": "riva_swin_tiny_val_binary",
+  "accuracy": 0.8663003663003663,
+  "macro_f1": 0.7900829493087558,
+  "weighted_f1": 0.8748719299134047,
+  "per_class": {
+    "Normal": {
+      "precision": 0.9570405727923628,
+      "recall": 0.8793859649122807,
+      "f1": 0.9165714285714286,
+      "support": 456
+    },
+    "Abnormal": {
+      "precision": 0.5669291338582677,
+      "recall": 0.8,
+      "f1": 0.663594470046083,
+      "support": 90
+    }
+  },
+  "confusion_matrix": [
+    [
+      401,
+      55
+    ],
+    [
+      18,
+      72
+    ]
+  ]
+}

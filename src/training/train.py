@@ -49,6 +49,11 @@ from training.loss_weighted import (
     build_weighted_sampler,
 )
 from utils.metrics import evaluate_predictions
+from training.finetune_utils import (
+    freeze_backbone,
+    unfreeze_backbone,
+    create_differential_optimizer,
+)
 
 # ============================================================
 # PROJECT PATH
@@ -155,12 +160,15 @@ CONFIG = {
     # --------------------------------------------------------
     # Class imbalance handling 
     # --------------------------------------------------------
-
-    "use_class_weighting": True,      
+    "freeze_backbone_epochs": 0,  
+    "backbone_lr": 1e-4,           
+    "use_class_weighting": True, 
+    "pretrained_backbone_path": os.path.join(
+        PROJECT_ROOT, "models", "checkpoints", "sipakmed_backbone.pth"),     
     "use_weighted_sampler": False,    
                                    
     "reports_dir": os.path.join(PROJECT_ROOT, "reports"),
-    "run_name": "riva_weighted_loss", 
+    "run_name": "riva_sipakmed_transfer_v2", 
     # --------------------------------------------------------
     # Output
     # --------------------------------------------------------
@@ -792,7 +800,38 @@ def train():
     )
 
     model = model.to(device)
+    if CONFIG["pretrained_backbone_path"]:
+        print(f"\nLoading SIPaKMeD-pretrained backbone from: "
+              f"{CONFIG['pretrained_backbone_path']}")
 
+        backbone_checkpoint = torch.load(
+            CONFIG["pretrained_backbone_path"],
+            map_location=device,
+        )
+
+        # load_state_dict with strict=False because we're only
+        # loading backbone weights -- the classifier head keys are
+        # intentionally missing from this checkpoint and will keep
+        # their fresh ImageNet-init / random-init values instead.
+        missing, unexpected = model.load_state_dict(
+            backbone_checkpoint["backbone_state_dict"],
+            strict=False,
+        )
+
+        print(f"  Loaded. Missing keys (expected: classifier head): "
+              f"{len(missing)}")
+        print(f"  Unexpected keys (should be 0): {len(unexpected)}")
+
+        if len(unexpected) > 0:
+            print(f"  WARNING: unexpected keys found: {unexpected}")
+    else:
+        print("\nNo SIPaKMeD backbone specified -- training from "
+              "ImageNet-pretrained weights only.")
+        
+    if CONFIG["pretrained_backbone_path"] and CONFIG["freeze_backbone_epochs"] > 0:
+        freeze_backbone(model)
+        print(f"Backbone will stay frozen for the first "
+              f"{CONFIG['freeze_backbone_epochs']} epoch(s).")
     print("\nEfficientNet-B3 created.")
 
     # --------------------------------------------------------
@@ -817,14 +856,19 @@ def train():
     # Optimizer
     # --------------------------------------------------------
 
-    optimizer = torch.optim.AdamW(
-
-        model.parameters(),
-
-        lr=CONFIG["learning_rate"],
-
-        weight_decay=CONFIG["weight_decay"]
-    )
+    if CONFIG["pretrained_backbone_path"]:
+        optimizer = create_differential_optimizer(
+            model,
+            backbone_lr=CONFIG["backbone_lr"],
+            head_lr=CONFIG["learning_rate"],
+            weight_decay=CONFIG["weight_decay"],
+        )
+    else:
+        optimizer = torch.optim.AdamW(
+            model.parameters(),
+            lr=CONFIG["learning_rate"],
+            weight_decay=CONFIG["weight_decay"],
+        )
 
     print(
         f"Learning rate: "
@@ -904,6 +948,17 @@ def train():
             f"{epoch}/"
             f"{CONFIG['num_epochs']}"
         )
+        
+        # ----------------------------------------------------
+        # Unfreeze backbone once the warmup period ends
+        # ----------------------------------------------------
+
+        if (
+            CONFIG["pretrained_backbone_path"]
+            and CONFIG["freeze_backbone_epochs"] > 0
+            and epoch == CONFIG["freeze_backbone_epochs"] + 1
+        ):
+            unfreeze_backbone(model)
 
         # ----------------------------------------------------
         # Training
